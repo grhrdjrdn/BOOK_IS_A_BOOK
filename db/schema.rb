@@ -11,8 +11,48 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_11_14_085303) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "books", force: :cascade do |t|
+    t.string "title"
+    t.string "authors"
+    t.text "description"
+    t.boolean "available", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "histories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "date_acquired"
+    t.bigint "user_id"
+    t.bigint "book_id"
+    t.index ["book_id"], name: "index_histories_on_book_id"
+    t.index ["user_id"], name: "index_histories_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "request_id"
+    t.index ["request_id"], name: "index_messages_on_request_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
+  create_table "requests", force: :cascade do |t|
+    t.boolean "approved"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "book_id"
+    t.index ["book_id"], name: "index_requests_on_book_id"
+    t.index ["user_id"], name: "index_requests_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
