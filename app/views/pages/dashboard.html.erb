@@ -1,0 +1,13 @@
+<h1>Hello <%= current_user.nickname %>, this is your Dashboard</h1>
+
+<h1>These are your books:</h1>
+
+<% @my_books.each do |item| %>
+
+  <%= cl_image_tag item.book.photo.key, crop: :fill %>
+  <p><%= item.book.title %></p>
+  <p><%= item.book.authors %></p>
+  <p><%= item.book.description %></p>
+  <p>Current Owner: <%= item.user.nickname %></p>
+
+<% end %>
