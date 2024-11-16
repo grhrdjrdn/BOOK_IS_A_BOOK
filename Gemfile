@@ -82,3 +82,6 @@ gem "geocoder"
 
 gem "pundit"
 
+gem "rest-client"
+
+gem "cloudinary"
