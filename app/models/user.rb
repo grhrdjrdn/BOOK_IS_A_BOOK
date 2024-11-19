@@ -6,4 +6,10 @@ class User < ApplicationRecord
 
   # geocoded_by :address
   # after_validation :geocode, if: :will_save_change_to_address?
+
+  has_many :requests
+  has_many :histories
+  has_many :messages
+  has_many :books, through: :histories
+
 end
