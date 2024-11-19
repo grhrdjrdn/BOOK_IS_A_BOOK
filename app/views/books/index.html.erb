@@ -1,6 +1,5 @@
 <% @books.each do |book| %>
-   <%= cl_image_tag book.photo.key, crop: :fill %>
-   <h4><%= book.title %></h4>
-   <p><%= book.authors %></p>
-   <p><%= book.description %></p>
+   <%= render book %>
+   <p><%= link_to "show this book", book %></p>
 <% end %>
+<%= link_to "New book", new_book_path %>
