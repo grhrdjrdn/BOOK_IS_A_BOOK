@@ -23,6 +23,14 @@ class PagesController < ApplicationController
     latest_histories = History.joins(:book).where(id: latest_histories_subquery)
     @my_books = latest_histories.where(user_id: current_user.id)
 
+    # all the requests I have made
+    @my_requests = Request.where(user_id: current_user.id)
+
+    # the book ids of the books I currently own
+    my_book_ids = @my_books.pluck(:book_id)
+    # any requests other people have made on my books
+    @requests_made_to_me = Request.where(book_id: my_book_ids)
+
   end
 
 end

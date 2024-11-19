@@ -7,7 +7,27 @@
   <%= cl_image_tag item.book.photo.key, crop: :fill %>
   <p><%= item.book.title %></p>
   <p><%= item.book.authors %></p>
+  <p><%= item.book.id %></p>
   <p><%= item.book.description %></p>
   <p>Current Owner: <%= item.user.nickname %></p>
 
+<% end %>
+
+<h1>These are your requests:</h1>
+
+<% @my_requests.each do |item| %>
+  <p><em><%= item.book.title %></em> by <%= item.book.authors %> </p>
+  <p>owned by <%= item.book.current_owner.nickname %></p>
+  <p><%= item.status %></p>
+  <p>- - -</p>
+<% end %>
+
+
+<h1>These are ingoing requests:</h1>
+
+<% @requests_made_to_me.each do |item| %>
+  <p><em><%= item.book.title %></em> by <%= item.book.authors %> </p>
+  <p>owned by <%= item.book.current_owner.nickname %></p>
+  <p><%= item.status %></p>
+  <p>- - -</p>
 <% end %>
