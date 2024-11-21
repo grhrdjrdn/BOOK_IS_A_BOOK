@@ -16,7 +16,7 @@
 <h1>These are your requests:</h1>
 
 <% @my_requests.each do |item| %>
-  <p><em><%= item.book.title %></em> by <%= item.book.authors %> </p>
+  <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
   <p>owned by <%= item.book.current_owner.nickname %></p>
   <p><%= item.status %></p>
   <p>- - -</p>
@@ -25,9 +25,15 @@
 
 <h1>These are ingoing requests:</h1>
 
-<% @requests_made_to_me.each do |item| %>
-  <p><em><%= item.book.title %></em> by <%= item.book.authors %> </p>
-  <p>owned by <%= item.book.current_owner.nickname %></p>
-  <p><%= item.status %></p>
-  <p>- - -</p>
-<% end %>
+<div data-controller="request-status">
+  <% @requests_made_to_me.each do |item| %>
+    <div class='<%= item.status %>'>
+      <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
+      <p>owned by <%= item.book.current_owner.nickname %></p>
+      <p class='status'><%= item.status %></p>
+      <button class='btn-deny'data-action="request-status#send" data-request-status-action-param="deny" data-request-status-path-param="<%= request_deny_path(item) %>">Deny</button>
+      <button class='btn-approve' data-action="request-status#send" data-request-status-action-param="approve" data-request-status-path-param="<%= request_approve_path(item) %>">Swap!</button></td>
+      <p>- - -</p>
+    </div>
+  <% end %>
+</div>
