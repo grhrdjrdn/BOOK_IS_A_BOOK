@@ -25,4 +25,5 @@ Geocoder.configure(
   #   prefix: 'geocoder:'
   # }
   units: :km, # Defaults to miles (:mi)
+  http_headers: { 'Accept-Encoding' => 'json' }
 )
