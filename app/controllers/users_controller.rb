@@ -25,7 +25,7 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = Flat.new(user_params)
+    @user = User.new(user_params)
 
     if @user.save
       redirect_to @user, notice: "User was successfully created."

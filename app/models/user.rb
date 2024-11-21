@@ -13,5 +13,4 @@ class User < ApplicationRecord
   has_many :histories
   has_many :messages
   has_many :books, through: :histories
-
 end
