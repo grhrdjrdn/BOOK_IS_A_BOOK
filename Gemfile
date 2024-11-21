@@ -77,7 +77,6 @@ end
 
 gem "devise"
 
-# adding geocoder gem
 gem "geocoder"
 
 gem "pundit"

@@ -54,7 +54,7 @@ end
 # create users
 User.destroy_all
 users = [
-  { email: "user1@mail.com", username: "melanie123", nickname: "Mel", password: "123456" },
+  { email: "user1@mail.com", username: "melanie123", nickname: "Mel", password: "123456", location: "225 Mitchell St, Northcote, VIC, 3070, Australia"},
   { email: "user2@mail.com", username: "luca1992", nickname: "Luc", password: "123456" },
   { email: "user3@mail.com", username: "zara789", nickname: "Zee", password: "123456" },
   { email: "user4@mail.com", username: "noah2023", nickname: "Noe", password: "123456" },

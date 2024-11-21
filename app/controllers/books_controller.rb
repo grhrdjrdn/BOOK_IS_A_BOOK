@@ -3,6 +3,20 @@ class BooksController < ApplicationController
 
   def index
     @books = Book.all
+
+    owners = @books.map do |book|
+      book.current_owner
+    end
+
+    @markers = owners.map do |owner|
+      next unless owner.geocoded?
+
+      {
+        lat: owner.latitude,
+        lng: owner.longitude
+      }
+    end
+    # raise
   end
 
   def show
