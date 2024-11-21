@@ -84,3 +84,5 @@ gem "pundit"
 gem "rest-client"
 
 gem "cloudinary"
+
+gem "pg_search"
