@@ -51,10 +51,8 @@ books.each do |book|
 
 end
 
-# create a bunch of users
-
+# create users
 User.destroy_all
-
 users = [
   { email: "user1@mail.com", username: "melanie123", nickname: "Mel", password: "123456" },
   { email: "user2@mail.com", username: "luca1992", nickname: "Luc", password: "123456" },
@@ -73,6 +71,7 @@ users.each do |attributes|
   puts "Created #{user.email}, #{user.username}, #{user.nickname} with password #{user.password}"
 end
 
+# create a history for each book
 Book.all.each_with_index do |book, index|
   attributes = {
     book: book,
