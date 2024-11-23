@@ -9,6 +9,7 @@
       <li><%= link_to request.created_at.strftime("%a %b %e at %l:%M %p"), request %></li>
     <% end %>
   </ul>
+<% end %>
 
 <% @book.histories.each do |item| %>
   <p>
@@ -36,5 +37,4 @@
   <b>TO DO: Make sure current_user can only make one request.<br>
     (Maybe it is already implied.)
   </b>
-
 <% end %>

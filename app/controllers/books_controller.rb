@@ -10,7 +10,6 @@ class BooksController < ApplicationController
 
     @markers = owners.map do |owner|
       next unless owner.geocoded?
-
       {
         lat: owner.latitude,
         lng: owner.longitude
