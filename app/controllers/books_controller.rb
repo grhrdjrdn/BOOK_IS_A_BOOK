@@ -16,7 +16,10 @@ class BooksController < ApplicationController
         lng: owner.longitude
       }
     end
-    # raise
+
+    if params[:query].present?
+      @books = Book.search_by_title_and_description(params[:query])
+    end
   end
 
   def show
