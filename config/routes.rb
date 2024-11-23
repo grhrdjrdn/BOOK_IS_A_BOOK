@@ -15,7 +15,8 @@ Rails.application.routes.draw do
     resources :requests, only: [:new, :create]
   end
   
-  resources :requests, only: [] do
+  resources :requests, only: [:show] do
+    resources :messages, only: :create
     patch :approve
     patch :deny
   end

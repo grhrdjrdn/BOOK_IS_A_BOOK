@@ -1,0 +1,22 @@
+<div class="container chat">
+  <h1>Your request for <%= @request.book.title %></h1>
+  <%= turbo_stream_from "request_#{@request.id}_messages" %>
+  <div id="messages" class="messages">
+    <% @request.messages.each do |message| %>
+      <%= render "messages/message", message: message, user: current_user %>
+    <% end %>
+  </div>
+
+  <%= simple_form_for [@request, @message],
+    html: {class: "d-flex",
+          data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }} do |f|
+  %>
+    <% other_user = current_user == @request.book.current_owner ? @request.user : @request.book.current_owner %>
+    <%= f.input :content,
+      label: false,
+      placeholder: "Message #{other_user.nickname}",
+      wrapper_html: {class: "flex-grow-1"}
+    %>
+    <%= f.button :submit, "Send", class: "btn btn-primary mb-3" %>
+  <% end %>
+</div>

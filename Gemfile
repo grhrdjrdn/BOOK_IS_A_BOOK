@@ -85,4 +85,6 @@ gem "rest-client"
 
 gem "cloudinary"
 
+gem "solid_cable"
+
 gem "pg_search"

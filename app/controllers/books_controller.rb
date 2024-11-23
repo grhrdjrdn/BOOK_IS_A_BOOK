@@ -23,8 +23,9 @@ class BooksController < ApplicationController
   end
 
   def show
-    @requests_on_this_book = Request.joins(:user).where(book: @book, user: current_user)
     @request = Request.new
+    @requests = @book.requests.where(user: current_user)
+    @requests_on_this_book = Request.joins(:user).where(book: @book, user: current_user)
   end
 
   def new

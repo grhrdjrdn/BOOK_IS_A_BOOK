@@ -1,6 +1,15 @@
 <p><%= link_to "Back to books", books_path %></p>
 <%= render @book %>
 
+
+<% if @requests.exists? %>
+  <h2>Your requests</h2>
+  <ul>
+    <% @requests.each do |request| %>
+      <li><%= link_to request.created_at.strftime("%a %b %e at %l:%M %p"), request %></li>
+    <% end %>
+  </ul>
+
 <% @book.histories.each do |item| %>
   <p>
     <%= item.user.nickname %> got this book on

@@ -1,23 +1,28 @@
 class RequestsController < ApplicationController
 
-  def new
-    @request = Request.new
-    @book = Book.find(params[:book_id])
-  end
 
   def create
     @request = Request.new
-    @request.user = current_user
     @book = Book.find(params[:book_id])
     @request.book = @book
+    @request.user = current_user
     @history = @book.histories.last
     @request.history = @history
     if @request.save
-      # redirects to dashboard
       redirect_to dashboard_path
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def show
+    @request = Request.find(params[:id])
+    @message = Message.new
+  end
+
+  def new
+    @request = Request.new
+    @book = Book.find(params[:book_id])
   end
 
   def approve
