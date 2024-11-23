@@ -6,6 +6,8 @@ class BooksController < ApplicationController
   end
 
   def show
+    @request = Request.new
+    @requests = @book.requests.where(user: current_user)
   end
 
   def new

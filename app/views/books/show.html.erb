@@ -2,3 +2,16 @@
 <%= link_to "Edit this book", edit_book_path(@book) %>
 <%= link_to "Back to books", books_path %>
 <%= button_to "Destroy this book", @book, method: :delete %>
+<br>
+<%= simple_form_for [@book, @request] do |f| %>
+  <%= f.submit "Request this book" %>
+<% end %>
+
+<% if @requests.exists? %>
+  <h2>Your requests</h2>
+  <ul>
+    <% @requests.each do |request| %>
+      <li><%= link_to request.created_at.strftime("%a %b %e at %l:%M %p"), request %></li>
+    <% end %>
+  </ul>
+<% end %>
