@@ -1,11 +1,6 @@
+<p><%= link_to "Back to books", books_path %></p>
 <%= render @book %>
-<%= link_to "Edit this book", edit_book_path(@book) %>
-<%= link_to "Back to books", books_path %>
-<%= button_to "Destroy this book", @book, method: :delete %>
-<br>
-<%= simple_form_for [@book, @request] do |f| %>
-  <%= f.submit "Request this book" %>
-<% end %>
+
 
 <% if @requests.exists? %>
   <h2>Your requests</h2>
@@ -14,4 +9,32 @@
       <li><%= link_to request.created_at.strftime("%a %b %e at %l:%M %p"), request %></li>
     <% end %>
   </ul>
+
+<% @book.histories.each do |item| %>
+  <p>
+    <%= item.user.nickname %> got this book on
+    <%= item.date_acquired.strftime("%F  %H:%M") %>
+  </p>
+<% end %>
+
+<%# check if current user is owner of the book %>
+<% if @book.current_owner.id == current_user.id %>
+  <%= button_to "Destroy this book", @book, method: :delete %>
+  <%= link_to "Edit this book", edit_book_path(@book) %>
+<% else %>
+  <%# check if current user made a request already %>
+  <% if @requests_on_this_book.size != 0 %>
+    <% @requests_on_this_book.each do |item| %>
+      <div class="m-4">
+        <p>Current user <%= item.user.nickname %>, made a request with id <%= item.id %> and status <%= item.status %></p>
+        <p>Chat might go here</p>
+      </div>
+    <% end %>
+  <% else %>
+    <%= button_to "Make a request", [@book, @request] %>
+  <% end %>
+  <b>TO DO: Make sure current_user can only make one request.<br>
+    (Maybe it is already implied.)
+  </b>
+
 <% end %>

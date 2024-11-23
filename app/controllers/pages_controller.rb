@@ -18,18 +18,19 @@ class PagesController < ApplicationController
     # # any bookings other people have made on my flats
     # @bookings_made_to_me = Booking.where(flat_id: my_flat_ids)
 
-    # The Books I own currently (with help from chatgpt – what is going on here?)
+    # The Books I own currently
     latest_histories_subquery = History.select('MAX(id) as id').group(:book_id)
     latest_histories = History.joins(:book).where(id: latest_histories_subquery)
     @my_books = latest_histories.where(user_id: current_user.id)
 
-    # all the requests I have made
-    @my_requests = Request.where(user_id: current_user.id)
+    # The Books I previously owned
+    @my_previously_owned_books = History.where(user_id: current_user.id).where.not(id: @my_books.pluck(:id))
 
-    # the book ids of the books I currently own
-    my_book_ids = @my_books.pluck(:book_id)
-    # any requests other people have made on my books
-    @requests_made_to_me = Request.where(book_id: my_book_ids)
+    # all the requests I have made
+    @my_requests = Request.where(user_id: current_user.id).order("id DESC")
+
+    # all the requests that I recieved
+    @incoming_requests = Request.joins(history: :user).where("history.user_id": current_user.id).order("id DESC")
 
   end
 

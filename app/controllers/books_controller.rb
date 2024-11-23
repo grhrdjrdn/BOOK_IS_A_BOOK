@@ -3,11 +3,29 @@ class BooksController < ApplicationController
 
   def index
     @books = Book.all
+
+    owners = @books.map do |book|
+      book.current_owner
+    end
+
+    @markers = owners.map do |owner|
+      next unless owner.geocoded?
+
+      {
+        lat: owner.latitude,
+        lng: owner.longitude
+      }
+    end
+
+    if params[:query].present?
+      @books = Book.search_by_title_and_description(params[:query])
+    end
   end
 
   def show
     @request = Request.new
     @requests = @book.requests.where(user: current_user)
+    @requests_on_this_book = Request.joins(:user).where(book: @book, user: current_user)
   end
 
   def new

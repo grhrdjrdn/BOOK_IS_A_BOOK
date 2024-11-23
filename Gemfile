@@ -77,7 +77,6 @@ end
 
 gem "devise"
 
-# adding geocoder gem
 gem "geocoder"
 
 gem "pundit"
@@ -87,3 +86,5 @@ gem "rest-client"
 gem "cloudinary"
 
 gem "solid_cable"
+
+gem "pg_search"
