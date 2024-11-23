@@ -10,6 +10,8 @@ class RequestsController < ApplicationController
     @request.user = current_user
     @book = Book.find(params[:book_id])
     @request.book = @book
+    @history = @book.histories.last
+    @request.history = @history
     if @request.save
       # redirects to dashboard
       redirect_to dashboard_path
@@ -21,6 +23,11 @@ class RequestsController < ApplicationController
   def approve
     @request = Request.find(params[:request_id])
     @request.status = 1
+    @history = History.new
+    @history.user = @request.user
+    @history.book = @request.book
+    @history.date_acquired = DateTime.now
+    @history.save
     respond_to do |format|
       if @request.save
         format.html { redirect_to dashboard_path }

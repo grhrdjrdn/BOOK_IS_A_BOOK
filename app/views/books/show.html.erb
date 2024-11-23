@@ -1,6 +1,13 @@
 <p><%= link_to "Back to books", books_path %></p>
 <%= render @book %>
 
+<% @book.histories.each do |item| %>
+  <p>
+    <%= item.user.nickname %> got this book on
+    <%= item.date_acquired.strftime("%F  %H:%M") %>
+  </p>
+<% end %>
+
 <%# check if current user is owner of the book %>
 <% if @book.current_owner.id == current_user.id %>
   <%= button_to "Destroy this book", @book, method: :delete %>
@@ -20,4 +27,5 @@
   <b>TO DO: Make sure current_user can only make one request.<br>
     (Maybe it is already implied.)
   </b>
+
 <% end %>
