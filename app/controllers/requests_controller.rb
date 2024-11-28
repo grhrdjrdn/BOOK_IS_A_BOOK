@@ -26,13 +26,21 @@ class RequestsController < ApplicationController
   end
 
   def approve
+    # set request status to "swapped"
     @request = Request.find(params[:request_id])
     @request.status = 1
+    # create a new history instance declaring new ownership of book
     @history = History.new
     @history.user = @request.user
     @history.book = @request.book
     @history.date_acquired = DateTime.now
     @history.save
+    # set all other current requests on this book to "denied"
+    @other_requests = Request.where(book: @request.book, status: 0)
+    @other_requests.each do |item|
+      item.status = 2
+      item.save
+    end
     respond_to do |format|
       if @request.save
         format.html { redirect_to dashboard_path }
