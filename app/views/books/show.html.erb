@@ -1,6 +1,5 @@
-<p><%= link_to "Back to books", books_path %></p>
-<%= render @book %>
 
+<%= render @book %>
 
 <%# I AM THE CURRENT OWNER %>
 <% if @book.current_owner.id == current_user.id %>
@@ -21,7 +20,7 @@
     <div class="request">
       <p>Request at <%= item.created_at.strftime("%F  %H:%M") %></p>
       <p>status <%= item.status %></p>
-      <p><%= link_to "Chat with #{item.history.user.nickname}", item %></p>
+      <p><%= link_to "Chat with #{item.user.nickname}", item %></p>
     </div>
   <% end %>
 <% end %>

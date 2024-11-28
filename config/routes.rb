@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # resources :flats
   devise_for :users
-  root to: "pages#home"
+  root to: "books#index"
   get "/dashboard", to: "pages#dashboard"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -14,12 +14,12 @@ Rails.application.routes.draw do
   resources :books do
     resources :requests, only: [:new, :create]
   end
-  
+
   resources :requests, only: [:show] do
     resources :messages, only: :create
     patch :approve
     patch :deny
   end
-  
+
   resources :users
 end
