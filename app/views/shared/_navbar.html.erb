@@ -18,7 +18,12 @@
             <%= link_to "Books", books_path, class: "nav-link" %>
           </li>
           <li class="nav-item">
-            <%= link_to "Dasboard", dashboard_path, class: "nav-link" %>
+            <% @incoming_requests = Request.joins(history: :user).where("history.user_id": current_user.id).order("id DESC") %>
+            <% if @incoming_requests.empty? %>
+              <%= link_to "Dasboard", dashboard_path, class: "nav-link" %>
+            <% else %>
+              <%= link_to "Dasboard(#{@incoming_requests.length})", dashboard_path, class: "nav-link" %>
+            <% end %>
           </li>
           <li class="nav-item dropdown">
           <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
