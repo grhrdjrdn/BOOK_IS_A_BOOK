@@ -18,11 +18,16 @@
             <%= link_to "Books", books_path, class: "nav-link" %>
           </li>
           <li class="nav-item">
+            <% @incoming_requests = Request.joins(history: :user).where("history.user_id": current_user.id).order("id DESC") %>
+            <% if @incoming_requests.empty? %>
+              <%= link_to "Dashboard", dashboard_path, class: "nav-link" %>
+            <% else %>
+              <%= link_to "Dashboard(#{@incoming_requests.length})", dashboard_path, class: "nav-link" %>
+            <% end %>
+
             <%= link_to "New book", new_book_path, class: "nav-link" %>
           </li>
-          <li class="nav-item">
-            <%= link_to "Dashboard #{current_user.nickname}", dashboard_path, class: "nav-link" %>
-          </li>
+         
           <li class="nav-item dropdown">
           <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>

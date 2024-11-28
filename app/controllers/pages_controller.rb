@@ -1,6 +1,9 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: :home
 
+  # after_action :verify_authorized, unless: :skip_pundit?
+  # after_action :verify_policy_scoped, unless: :skip_pundit?
+
   def home
   end
 

@@ -17,13 +17,22 @@
 <% end %>
 
 
-<h1>Incoming requests:</h1>
+<h1>Ingoing requests(<%= @incoming_requests.length %>):</h1>
 
 <div data-controller="request-status">
   <% @incoming_requests.each do |item| %>
     <div class='<%= item.status %> request' data-book-id='<%= item.book.id %>'>
       <p>Request (<%= item.created_at.utc.getlocal.strftime("%F  %H:%M") %>) from <%= item.user.nickname %></p>
       <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
+      <p>owned by <%= item.book.current_owner.nickname %></p>
+      <%# <p class='status'><%= item.status</p> %>
+      <p>
+        <%= link_to item.status, "/requests/#{item.id}", class: 'status' %>
+      </p>
+      <button class='btn-deny'data-action="request-status#send" data-request-status-action-param="deny" data-request-status-path-param="<%= request_deny_path(item) %>">Deny</button>
+      <button class='btn-approve' data-action="request-status#send" data-request-status-action-param="approve" data-request-status-path-param="<%= request_approve_path(item) %>">Swap!</button></td>
+      <p>- - -</p>
+
       <p><%= link_to "Chat with #{item.user.nickname}", item %></p>
       <div class="status">
         <% if item.status == "pending" %>
@@ -38,6 +47,7 @@
     </div>
   <% end %>
 </div>
+
 
 <h1>Books you currently own:</h1>
 
