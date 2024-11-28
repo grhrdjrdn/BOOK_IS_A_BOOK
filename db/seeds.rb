@@ -33,7 +33,7 @@ books.each do |book|
   book_url = "http://books.toscrape.com/catalogue/#{book_ref}"
   html_content = URI.open(book_url).read
   doc = Nokogiri::HTML.parse(html_content)
-  book_description = doc.search(".product_page p")[3].text.strip
+  book_description = doc.search(".product_page p")[3].text.sub(/...more/, '').strip
 
   # authors
   response = RestClient.get "https://openlibrary.org/search.json?title=#{title}"
@@ -54,17 +54,17 @@ end
 # create users
 User.destroy_all
 users = [
-  { email: "user1@mail.com", username: "melanie123", nickname: "Mel", password: "123456", location: "225 Mitchell St, Northcote, VIC, 3070, Australia"},
-  { email: "user2@mail.com", username: "luca1992", nickname: "Luc", password: "123456" },
-  { email: "user3@mail.com", username: "zara789", nickname: "Zee", password: "123456" },
-  { email: "user4@mail.com", username: "noah2023", nickname: "Noe", password: "123456" },
-  { email: "user5@mail.com", username: "emma_bella", nickname: "Emm", password: "123456" },
-  { email: "user6@mail.com", username: "oliver777", nickname: "Oll", password: "123456" },
-  { email: "user7@mail.com", username: "sophia2022", nickname: "Soi", password: "123456" },
-  { email: "user8@mail.com", username: "william001", nickname: "Wil", password: "123456" },
-  { email: "user9@mail.com", username: "mia_xoxo", nickname: "Mia", password: "123456" },
-  { email: "user10@mail.com", username: "james_king", nickname: "Jim", password: "123456" }
-]
+  { email: "user1@mail.com", username: "melanie123", nickname: "Melanie", password: "123456", location: "225 Mitchell St, Northcote, VIC, 3070, Australia" },
+  { email: "user2@mail.com", username: "luca1992", nickname: "Luca", password: "123456", location: "15 Smith St, Collingwood, VIC, 3066, Australia" },
+  { email: "user3@mail.com", username: "zara789", nickname: "Zara", password: "123456", location: "78 Lygon St, Carlton, VIC, 3053, Australia" },
+  { email: "user4@mail.com", username: "noah2023", nickname: "Noah", password: "123456", location: "32 Gertrude St, Fitzroy, VIC, 3065, Australia" },
+  { email: "user5@mail.com", username: "emma_bella", nickname: "Emma", password: "123456", location: "10 Bourke St, Melbourne, VIC, 3000, Australia" },
+  { email: "user6@mail.com", username: "oliver777", nickname: "Oliver", password: "123456", location: "50 Queens Rd, Melbourne, VIC, 3004, Australia" },
+  { email: "user7@mail.com", username: "sophia2022", nickname: "Sophia", password: "123456", location: "88 Acland St, St Kilda, VIC, 3182, Australia" },
+  { email: "user8@mail.com", username: "william001", nickname: "William", password: "123456", location: "40 Chapel St, Windsor, VIC, 3181, Australia" },
+  { email: "user9@mail.com", username: "mia_xoxo", nickname: "Mia", password: "123456", location: "12 Flinders Lane, Melbourne, VIC, 3000, Australia" },
+  { email: "user10@mail.com", username: "james_king", nickname: "James", password: "123456", location: "99 Bridge Rd, Richmond, VIC, 3121, Australia" }
+];
 
 users.each do |attributes|
   user = User.create!(attributes)

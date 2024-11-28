@@ -2,4 +2,5 @@
   <h4><%= book.title %></h4>
   <p><%= book.authors %></p>
   <p><%= book.description %></p>
-  <p>Owner: <%= book.current_owner.nickname %></>
+  <p>Current owner: <%= book.current_owner.nickname %></p>
+  <p>about <%= book.current_owner.distance_to(current_user).round(1) %> km away</p>
