@@ -23,9 +23,15 @@ class BooksController < ApplicationController
 
   def show
     @request = Request.new
-    @requests = @book.requests.where(user: current_user)
+
     @requests_on_this_book = Request.joins(:user).where(book: @book, user: current_user)
     authorize @book
+    # REQUESTS I MADE ON THIS BOOK
+    @requests = @book.requests.where(user: current_user).order("id DESC")
+    # REQUESTS I MADE ON THIS BOOK THAT ARE PENDING
+    @pending_requests_made = @book.requests.where(user: current_user, status: "pending")
+    # INCOMING REQUESTS I HAVE RECEIVED ON THIS BOOK
+    @incoming_requests = Request.joins(:history).where(book: @book, "history.user": current_user).order("id DESC")
   end
 
   def new
