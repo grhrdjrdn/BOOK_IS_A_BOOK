@@ -37,6 +37,7 @@ export default class extends Controller {
           } else {
             target.innerText = "Just swapped"
             const book = document.querySelector(`.book_item[data-book-id='${book_id}']`)
+            book.querySelector(".status").innerText = "Just swapped!"
             document.querySelector(".previous-books").prepend(book)
           }
         })
