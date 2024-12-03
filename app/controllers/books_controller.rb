@@ -16,8 +16,20 @@ class BooksController < ApplicationController
       }
     end
 
+
+
+
+    # Book.near([current_user.latitude, current_user.longitude], 50, order: :distance).search_by_title_and_description(params[:query])
+
     if params[:query].present?
+      @book_distance_hash = {}
       @books = Book.search_by_title_and_description(params[:query])
+      counter = 0
+      @books.each do |book|
+        @book_distance_hash["book #{counter}"] = { book: book, distance: book.current_owner.distance_to(current_user).round(1)}
+        counter += 1
+      end
+      # raise
     end
   end
 

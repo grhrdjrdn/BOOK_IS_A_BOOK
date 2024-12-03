@@ -4,6 +4,7 @@ class Book < ApplicationRecord
   has_many :requests
   has_many :histories, dependent: :destroy
   has_many :users, through: :histories
+  geocoded_by :location
 
   def current_owner
     self.histories.last.user
