@@ -10,6 +10,7 @@
                 input_html: { autocomplete: "email" }%>
     <%= f.input :username %>
     <%= f.input :nickname %>
+    <%= f.input :location, label: 'Address' %>
     <%= f.input :password,
                 required: true,
                 hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),

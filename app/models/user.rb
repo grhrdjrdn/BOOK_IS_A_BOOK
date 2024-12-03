@@ -5,9 +5,18 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   geocoded_by :location
+  validate :location_must_be_geocodable
   after_validation :geocode, if: :will_save_change_to_location?
-  # geocoded_by :address
-  # after_validation :geocode, if: :will_save_change_to_address?
+
+  private
+
+  # Custom validation method
+  def location_must_be_geocodable
+    result = Geocoder.search(location).first
+    if result.nil?
+      errors.add(:location, "Could not be geocoded. Please enter a valid address.")
+    end
+  end
 
   has_many :requests
   has_many :histories
