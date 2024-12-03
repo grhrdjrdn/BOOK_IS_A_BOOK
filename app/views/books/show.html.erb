@@ -1,51 +1,80 @@
-
-<%= render @book %>
-
-<%# I AM THE CURRENT OWNER %>
-<% if @book.current_owner.id == current_user.id %>
-  <p><%= link_to "Delete", @book, data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %></p>
-  <p><%= link_to "Edit this book", edit_book_path(@book) %></p>
-<% else %>
-  <%# I AM NOT THE CURRENT OWNER %>
-  <%# DO I HAVE A PENDING REQUEST ON THIS BOOK?  %>
-  <% if !@pending_requests_made.exists? %>
-    <%= button_to "Make a request", [@book, @request] %>
-  <% end %>
-<% end %>
-
-<%# I AM THE CURRENT OWNER %>
-<% if @book.current_owner.id == current_user.id %>
-<%# AND I HAVE RECEIVED REQUESTS ON THIS BOOK %>
-  <% @incoming_requests.each do |item| %>
-    <div class="request">
-      <p>Request at <%= item.created_at.strftime("%F  %H:%M") %></p>
-      <p>status <%= item.status %></p>
-      <p><%= link_to "Chat with #{item.user.nickname}", item %></p>
+<div class="container my-5">
+  <div class="row">
+    <div class="col-sm-6">
+      <div id="carouselExample" class="carousel slide">
+        <div class="thumbnail border border-1 rounded p-1">
+          <div class="carousel-inner">
+            <% @book.photos.each do |photo| %>
+              <div class="carousel-item active text-center">
+                <%= cl_image_tag photo.key, height: 362, width: 267, crop: :fill %>
+                <%# <img src="https://books.toscrape.com/media/cache/6b/07/6b07b77236b7c80f42bd90bf325e69f6.jpg" class="" alt=@book.title> %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
     </div>
-  <% end %>
-<% end %>
 
-<%# I HAVE MADE REQUESTS ON THIS BOOK %>
-<% if @requests.exists? %>
-  <% @requests.each do |item| %>
-    <div class="request">
-      <p>You made a request at <%= item.created_at.strftime("%F  %H:%M") %></p>
-      <p>status <%= item.status %></p>
-      <p><%= link_to "Chat with #{item.history.user.nickname}", item %></p>
+    <div class="col-sm-6 product_main">
+      <h1><%= @book.title %></h1>
+      <p>By <%= @book.authors %></p>
+      <p>Current_owner: <%= @book.current_owner.username %></p>
+      <p>Location: <%= @book.current_owner.location %></p>
+        <%# I AM THE CURRENT OWNER %>
+      <% if @book.current_owner.id == current_user.id %>
+        <p><%= link_to "Delete", @book, data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %></p>
+        <p><%= link_to "Edit this book", edit_book_path(@book) %></p>
+      <% else %>
+        <%# I AM NOT THE CURRENT OWNER %>
+        <%# DO I HAVE A PENDING REQUEST ON THIS BOOK?  %>
+        <% if !@pending_requests_made.exists? %>
+          <%= button_to "Make a request", [@book, @request] %>
+        <% end %>
+      <% end %>
+      <%# I AM THE CURRENT OWNER %>
+      <% if @book.current_owner.id == current_user.id %>
+      <%# AND I HAVE RECEIVED REQUESTS ON THIS BOOK %>
+        <% @incoming_requests.each do |item| %>
+          <div class="request">
+            <p>Request at <%= item.created_at.strftime("%F  %H:%M") %></p>
+            <p>status <%= item.status %></p>
+            <p><%= link_to "Chat with #{item.user.nickname}", item %></p>
+          </div>
+        <% end %>
+      <% end %>
+      <%# I HAVE MADE REQUESTS ON THIS BOOK %>
+      <% if @requests.exists? %>
+        <% @requests.each do |item| %>
+          <div class="request">
+            <p>You made a request at <%= item.created_at.strftime("%F  %H:%M") %></p>
+            <p>status <%= item.status %></p>
+            <p><%= link_to "Chat with #{item.history.user.nickname}", item %></p>
+          </div>
+        <% end %>
+      <% end %>
     </div>
-  <% end %>
-<% end %>
-
-
-<%# Book History %>
-<% if @book.histories.exists? %>
-  <div style="background-color: gray">
-    <h1>Book History</h1>
-    <% @book.histories.each do |item| %>
-      <p>
-        <%= item.user.nickname %> got this book on
-        <%= item.date_acquired.strftime("%F  %H:%M") %>
-      </p>
-    <% end %>
   </div>
-<% end %>
+  <br>
+  <h2>Description:</h2>
+  <p><%= @book.description %></p>
+  <%# Book History %>
+  <% if @book.histories.exists? %>
+    <div style="background-color: gray">
+      <h1>Book History</h1>
+      <% @book.histories.each do |item| %>
+        <p>
+          <%= item.user.nickname %> got this book on
+          <%= item.date_acquired.strftime("%F  %H:%M") %>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

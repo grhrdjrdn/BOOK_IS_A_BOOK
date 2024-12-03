@@ -49,7 +49,7 @@
 <div class="current-books">
   <% @my_books.each do |item| %>
     <div class='book_item' data-book-id='<%= item.book.id %>'>
-      <%= cl_image_tag item.book.photo.key, crop: :fill %>
+      <%= cl_image_tag item.book.photos.first.key, crop: :fill %>
       <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
       <div class="status">Acquired on <%= item.date_acquired.utc.getlocal.strftime("%F  %H:%M") %></div>
     </div>
