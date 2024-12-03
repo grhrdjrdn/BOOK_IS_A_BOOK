@@ -11,7 +11,9 @@
   </div>
 </div>
 
-<% @books.each do |book| %>
+<% sorted_books = @book_distance_hash.sort_by { |key, value| value[:distance] } %>
+<% sorted_books.each do |key, value| %>
+  <% book = value[:book] %>
    <%= render book %>
    <p><%= link_to "show this book", book %></p>
 <% end %>
