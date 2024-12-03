@@ -1,5 +1,5 @@
 class Book < ApplicationRecord
-  has_one_attached :photo
+  has_many_attached :photos
 
   has_many :requests
   has_many :histories, dependent: :destroy

@@ -3,6 +3,6 @@
    <%= f.input :authors %>
    <%= f.input :description %>
    <%= f.input :available %>
-   <%= f.input :photo, as: :file %>
+   <%= f.input :photos, as: :file, input_html: { multiple: true } %>
    <%= f.submit class: "btn btn-primary mb-3"%>
 <% end %>

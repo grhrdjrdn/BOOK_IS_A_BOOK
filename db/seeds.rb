@@ -23,17 +23,19 @@ doc = Nokogiri::HTML.parse(html_content)
 books = doc.search(".product_pod")
 
 books.each do |book|
-  # book title and image link
+  # book title
   title = book.search("h3 a")[0]["title"]
-  img_src = book.search(".image_container a img")[0]["src"]
-  img_link = img_src.gsub("..", "http://books.toscrape.com/")
+  # img_src = book.search(".image_container a img")[0]["src"]
+  # img_link = img_src.gsub("..", "http://books.toscrape.com/")
 
-  # book description
+  # book description and image link
   book_ref = book.search(".image_container a")[0]["href"]
   book_url = "http://books.toscrape.com/catalogue/#{book_ref}"
   html_content = URI.open(book_url).read
   doc = Nokogiri::HTML.parse(html_content)
   book_description = doc.search(".product_page p")[3].text.sub(/...more/, '').strip
+  img_src = doc.search(".item.active img")[0]["src"]
+  img_link = img_src.gsub("../../", "http://books.toscrape.com/")
 
   # authors
   response = RestClient.get "https://openlibrary.org/search.json?title=#{title}"
@@ -43,12 +45,11 @@ books.each do |book|
 
     # create 16 books and seed images
     attributes = { title: title, authors: authors, description: book_description }
-    file = URI.parse("#{img_link}").open
+    file = URI.parse(img_link).open
     book = Book.new(attributes)
-    book.photo.attach(io: file, filename: "#{title}.png", content_type: "image/png")
+    book.photos.attach(io: file, filename: "#{title}.png", content_type: "image/png")
     book.save
   end
-
 end
 
 # create users
