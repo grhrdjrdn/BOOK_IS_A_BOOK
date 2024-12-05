@@ -1,2 +1,36 @@
-<h1>Users show</h1>
-<p>User Nickname: <%= current_user.nickname %></p>
+<div class="map_layout">
+
+  <div class="map"
+    data-controller="map"
+    data-map-markers-value="<%= @markers.to_json %>"
+    data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
+    data-map-user-id-value="<%= @user.id %>">
+  </div>
+
+  <turbo-frame id="aside">
+
+    <div class="aside">
+
+      <div>
+        <% if @user == @current_user %>
+          <p>My books</p>
+        <% else %>
+          <p><%= @user.nickname %></p>
+        <% end %>
+        <p><%= @user.distance_to(current_user).to_f.round(1) %> km</p>
+      </div>
+
+      <div>
+        <% @books_from_user.each do |item| %>
+          <div class='book_item' data-book-id='<%= item.book.id %>'>
+            <%= cl_image_tag item.book.photos.first.key, crop: :fill %>
+            <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+
+  </turbo-frame>
+
+</div>

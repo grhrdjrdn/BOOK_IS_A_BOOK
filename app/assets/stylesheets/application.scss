@@ -19,3 +19,6 @@
 body {
   background-color: $background-color;
 }
+.mapboxgl-marker {
+  cursor: pointer;
+}

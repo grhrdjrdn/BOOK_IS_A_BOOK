@@ -1,4 +1,4 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon sticky-top">
   <div class="container-fluid">
     <%= link_to "#", class: "navbar-brand" do %>
       <%= image_tag "https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/logo.png" %>
@@ -24,6 +24,9 @@
             <% else %>
               <%= link_to "Dashboard (#{@incoming_requests.length})", dashboard_path, class: "nav-link" %>
             <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Map", user_path(current_user), class: "nav-link" %>
           </li>
 
           <li class="nav-item dropdown">
