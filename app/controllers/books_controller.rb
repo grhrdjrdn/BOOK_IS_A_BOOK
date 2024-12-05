@@ -29,6 +29,7 @@ class BooksController < ApplicationController
         @book_distance_hash["book #{counter}"] = { book: book, distance: book.current_owner.distance_to(current_user).round(1)}
         counter += 1
       end
+      # sorted_books = @book_distance_hash.sort_by { |key, value| value[:distance] }
       # raise
     end
   end

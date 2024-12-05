@@ -11,13 +11,24 @@
   </div>
 </div>
 
-<% sorted_books = @book_distance_hash.sort_by { |key, value| value[:distance] } %>
-<% sorted_books.each do |key, value| %>
-  <% book = value[:book] %>
-   <%= render book %>
-   <p><%= link_to "show this book", book %></p>
+<% if params[:query].present? %>
+  <% if @book_distance_hash.present? %>
+    <% sorted_books = @book_distance_hash.sort_by { |key, value| value[:distance] } %>
+    <% sorted_books.each do |key, value| %>
+      <% book = value[:book] %>
+      <%= render book %>
+      <p><%= link_to "show this book", book %></p>
+    <% end %>
+  <% else %>
+    <p>Sorry! No books meet your search query.</p>
+  <% end %>
+<% else %>
+  <% @books.each do |book| %>
+    <%= render book %>
+    <p><%= link_to "Show this book", book %></p>
+  <% end %>
 <% end %>
-<%= link_to "New book", new_book_path %>
+  <%= link_to "New book", new_book_path %>
 
 <div style="width: 100%; height: 600px;"
   data-controller="map"
