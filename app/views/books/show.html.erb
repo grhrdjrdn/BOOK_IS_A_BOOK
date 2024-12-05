@@ -30,8 +30,14 @@
       <p>Location: <%= @book.current_owner.location %></p>
         <%# I AM THE CURRENT OWNER %>
       <% if @book.current_owner.id == current_user.id %>
-        <p><%= link_to "Delete", @book, data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %></p>
-        <p><%= link_to "Edit this book", edit_book_path(@book) %></p>
+        <p><%#= link_to "Delete", @book, data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %></p>
+        <%= link_to @book, data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "text-decoration-none" do %>
+          <i class="fa-solid fa-trash-can"></i>
+        <% end %>
+        <%# <p><%= link_to "Edit this book", edit_book_path(@book)</p>  %>
+        <%= link_to edit_book_path(@book), class: "ms-1" do %>
+          <i class="fa-solid fa-pen-to-square"></i>
+        <% end %>
       <% else %>
         <%# I AM NOT THE CURRENT OWNER %>
         <%# DO I HAVE A PENDING REQUEST ON THIS BOOK?  %>

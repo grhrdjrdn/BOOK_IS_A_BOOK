@@ -26,7 +26,7 @@ class BooksController < ApplicationController
       @books = Book.search_by_title_and_description(params[:query])
       counter = 0
       @books.each do |book|
-        @book_distance_hash["book #{counter}"] = { book: book, distance: book.current_owner.distance_to(current_user).round(1)}
+        @book_distance_hash["book #{counter}"] = { book: book, distance: book.current_owner.distance_to(current_user).round(1) }
         counter += 1
       end
       # raise
