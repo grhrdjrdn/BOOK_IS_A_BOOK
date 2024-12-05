@@ -1,10 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
-import mapboxgl from 'mapbox-gl' // Don't forget this!
+import mapboxgl from 'mapbox-gl'
 
 export default class extends Controller {
   static values = {
     apiKey: String,
-    markers: Array
+    markers: Array,
+    userId: Number
   }
 
   connect() {
@@ -21,9 +22,27 @@ export default class extends Controller {
 
   #addMarkersToMap() {
     this.markersValue.forEach((marker) => {
-      new mapboxgl.Marker()
+      let new_marker = new mapboxgl.Marker()
         .setLngLat([ marker.lng, marker.lat ])
         .addTo(this.map)
+        .getElement();
+      // add event listener to use Turbo Frames on click, also change color of Marker
+      new_marker.addEventListener('click', (event) => {
+          let map_markers = document.querySelectorAll(".mapboxgl-marker");
+          map_markers.forEach((map_marker) => {
+            let path = map_marker.getElementsByTagName("path")[0];
+            path.setAttribute("fill", "#3FB1CE");
+          })
+          let svg = event.target.parentElement;
+          let path = svg.getElementsByTagName("path")[0];
+          path.setAttribute("fill", "#000");
+          Turbo.visit(marker.id, { frame: 'aside', action: 'advance' });
+        });
+      // initially set color of Marker
+      if (this.userIdValue == marker.id) {
+        let path = new_marker.getElementsByTagName("path")[0];
+        path.setAttribute("fill", "#000");
+      }
     })
   }
 
@@ -33,7 +52,5 @@ export default class extends Controller {
     this.markersValue.forEach(marker => bounds.extend([ marker.lng, marker.lat ]))
     this.map.fitBounds(bounds, { padding: 70, maxZoom: 15, duration: 0 })
 
-    // this.markersValue.forEach(marker => [-40, 150].extend([ marker.lng, marker.lat ]))
-    // this.map.fitBounds([-40, 150], { padding: 70, maxZoom: 15, duration: 0 })
   }
 }

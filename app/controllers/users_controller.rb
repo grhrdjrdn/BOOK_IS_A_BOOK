@@ -17,6 +17,27 @@ class UsersController < ApplicationController
 
   # GET /users/1 or /users/1.json
   def show
+    @user = User.find(params[:id])
+
+    # The Books this user currently owns
+    latest_histories_subquery = History.select('MAX(id) as id').group(:book_id)
+    latest_histories = History.joins(:book).where(id: latest_histories_subquery)
+    @books_from_user = latest_histories.where(user_id: @user.id)
+
+    @books = policy_scope(Book)
+    owners = @books.map do |book|
+      book.current_owner
+    end
+
+    @markers = owners.map do |owner|
+      next unless owner.geocoded?
+      {
+        lat: owner.latitude,
+        lng: owner.longitude,
+        id: owner.id
+      }
+    end
+
   end
 
   # GET /users/1/edit
