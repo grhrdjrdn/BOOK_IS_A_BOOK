@@ -1,11 +1,22 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-sm-8">
-      <h4>Create a book</h4>
+<!-- Random Color -->
+<% random_colour = ["bg_col_1", "bg_col_2", "bg_col_3", "bg_col_4"].sample %>
 
-      <%= render "form", book: @book %>
+<div class="split_layout">
+  <div class="left-pane <%= random_colour %>">
+    <p class='m-5'>To Do: Image here</p>
+  </div>
 
-      <p><%= link_to "All books", books_path %></p>
+  <div class="right-pane">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-sm-8">
+          <h4>Create a book</h4>
+
+          <%= render "form", book: @book %>
+
+          <p><%= link_to "All books", books_path %></p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

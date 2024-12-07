@@ -1,30 +1,29 @@
-<div class="row justify-content-center">
-  <div class="col-sm-8 my-3">
-    <%= form_with url: books_path, method: :get, class: "d-flex" do %>
-      <%= text_field_tag :query,
-            params[:query],
-            class: "form-control",
-            placeholder: "Type a keyword"
-        %>
-      <%= submit_tag "Search", name: "", class: "btn btn-primary" %>
-    <% end %>
-  </div>
+<!-- Random Color -->
+<% random_colour = ["bg_col_1", "bg_col_2", "bg_col_3", "bg_col_4"].sample %>
+
+<!-- SEARCH FIELD -->
+<div class="horizontal_container <%= random_colour %>" >
+  <%= render "search" %>
 </div>
 
-<% if params[:query].present? %>
-  <% if @book_distance_hash.present? %>
-    <% sorted_books = @book_distance_hash.sort_by { |key, value| value[:distance] } %>
-    <% sorted_books.each do |key, value| %>
-      <% book = value[:book] %>
-      <%= render book %>
-      <p><%= link_to "show this book", book %></p>
+<!-- BOOKS -->
+<div class="books_container">
+  <% if params[:query].present? %>
+    <% if @book_distance_hash.present? %>
+      <% sorted_books = @book_distance_hash.sort_by { |key, value| value[:distance] } %>
+      <% sorted_books.each do |key, value| %>
+        <% book = value[:book] %>
+        <%= render "shared/book", book: book %>
+      <% end %>
+    <% else %>
+      <p>Sorry! No books meet your search query.</p>
     <% end %>
   <% else %>
-    <p>Sorry! No books meet your search query.</p>
+    <% @books.each do |book| %>
+      <%= render "shared/book", book: book %>
+    <% end %>
   <% end %>
-<% else %>
-  <% @books.each do |book| %>
-    <%= render book %>
-    <p><%= link_to "Show this book", book %></p>
-  <% end %>
-<% end %>
+</div>
+
+<!-- FOOTER -->
+<%= render "shared/footer" %>

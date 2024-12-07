@@ -1,0 +1,17 @@
+.split_layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1em;
+  margin: 0 1em;
+  height: calc(100vh - 56px - 1em);
+}
+
+.left-pane {
+  border-radius: 2em;
+}
+
+@media screen and (max-width: 1470px) {
+  .split_layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
