@@ -1,8 +1,48 @@
+.mapboxgl-marker {
+  cursor: pointer;
+}
+
 .map_layout {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 3fr 2fr;
+  margin: 0 1em;
+  gap: .5em;
 }
 
 .map {
-  height: 100vh;
+  height: calc(100vh - 56px - 1em);
+  border-radius: 2em;
+  position: sticky;
+  top: 56px;
+}
+
+.aside {
+  margin-bottom: 3em;
+}
+
+.map_books_container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2em .5em;
+}
+
+@media screen and (max-width: 1470px) {
+  .map_layout {
+    grid-template-columns: 2fr 2fr;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .map_layout {
+    grid-template-columns: 2fr 1fr;
+  }
+  .map_books_container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .map_layout {
+    grid-template-columns: 1fr 1fr;
+  }
 }
