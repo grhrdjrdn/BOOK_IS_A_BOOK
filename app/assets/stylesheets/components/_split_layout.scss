@@ -8,10 +8,17 @@
 
 .left-pane {
   border-radius: 2em;
+  container: left-pane / size;
 }
 
 @media screen and (max-width: 1470px) {
   .split_layout {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@container left-pane (max-aspect-ratio: 1/1 ) {
+  p {
+    color: red;
   }
 }

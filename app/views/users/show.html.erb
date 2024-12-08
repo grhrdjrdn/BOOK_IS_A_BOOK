@@ -13,9 +13,9 @@
 
       <div>
         <% if @user == @current_user %>
-          <p>My books</p>
+          <p>Your books</p>
         <% else %>
-          <p><%= @user.nickname %></p>
+          <p><%= @user.nickname %>’s books</p>
         <% end %>
       </div>
 

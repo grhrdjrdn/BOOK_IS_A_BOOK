@@ -9,7 +9,7 @@
       ] %>')">
       <div class="screen">
         <span class="author"><%= book.authors %></span>
-        <div class="title"><%= book.title %></div>
+        <div class="title"><%= book.title.truncate(60, separator: ' ', omission: ' ...') %></div>
       </div>
     </div>
 
@@ -22,7 +22,11 @@
     </div>
   <% end %>
   <div class="caption">
-  <span><%= book.current_owner.distance_to(current_user).to_f.round(1) %> km</span>
-  <span><%= book.current_owner.nickname %></span>
+    <% if book.current_owner == current_user %>
+      <span>Currently yours</span>
+    <% else %>
+      <span><%= book.current_owner.distance_to(current_user).to_f.round(1) %> km</span>
+      <span><%= link_to book.current_owner.nickname, book.current_owner %></span>
+    <% end %>
   </div>
 </div>
