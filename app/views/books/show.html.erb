@@ -72,15 +72,21 @@
   <h2>Description:</h2>
   <p><%= @book.description %></p>
   <%# Book History %>
-  <% if @book.histories.exists? %>
-    <div style="background-color: gray">
+
+<% if @book.histories.exists? %>
+  <div class="book-details-history">
+    <div class="checkout-card">
       <h1>Book History</h1>
       <% @book.histories.each do |item| %>
-        <p>
-          <%= item.user.nickname %> got this book on
-          <%= item.date_acquired.strftime("%F  %H:%M") %>
-        </p>
+        <div class="entry">
+          <span class="date"><%= item.date_acquired.strftime("%F  %H:%M") %></span>
+          <span class="user-name"><%= item.user.nickname %></span>
+        </div>
       <% end %>
     </div>
-  <% end %>
+  </div>
+<% end %>
+
+
+
 </div>
