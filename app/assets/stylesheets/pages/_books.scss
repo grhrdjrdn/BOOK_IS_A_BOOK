@@ -23,3 +23,13 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+// FOR DASHBOARD PAGE
+.book_grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2em .5em;
+  .caption {
+    grid-template-columns: 1fr 0;
+  }
+}
