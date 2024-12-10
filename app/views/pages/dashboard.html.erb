@@ -4,20 +4,21 @@
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Requests you made</button>
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Your requests</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Incoming requests (<%= @pending_requests.length %>)</button>
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Incoming (<%= @pending_requests.length %>)</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Books you currently own</button>
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Your books</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="false">Books you previously owned</button>
+        <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="false">Previously owned</button>
       </li>
     </ul>
+    <%# --- REQUESTS --- %>
     <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div class="tab-pane pt-5 fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
         <% @my_requests.each do |item| %>
           <div class="request d-flex justify-content-between">
             <div class="requested-book flex-grow-1 w-25">
@@ -40,7 +41,8 @@
           </div>
         <% end %>
       </div>
-      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <%# --- PENDING REQUESTS --- %>
+      <div class="tab-pane pt-5 fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div data-controller="request-status">
           <%# @incoming_requests.each do |item| %>
           <% if @pending_requests.empty? !=  true %>
@@ -73,39 +75,30 @@
           <% end %>
         </div>
       </div>
-      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-        <div class="current-books">
-          <ol class="row list-unstyled">
+
+      <%# --- CURRENT BOOKS --- %>
+      <div class="tab-pane pt-5 fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="current-books book_grid">
             <% @my_books.each do |item| %>
-              <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3 px-2">
-                <div class='book_item text-center my-3' data-book-id='<%= item.book.id %>'>
-                  <div class="image_container mb-2">
-                    <%= cl_image_tag item.book.photos.first.key, height: 145, crop: :fill %>
-                  </div>
-                  <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
-                  <div class="status">Acquired on <%= item.date_acquired.utc.getlocal.strftime("%F  %H:%M") %></div>
-                </div>
-              </li>
+              <%= render partial: "shared/book",
+                locals: {
+                  book: item.book,
+                  caption: "Since #{item.date_acquired.utc.getlocal.strftime("%-d %b %Y")}"
+              } %>
             <% end %>
-          </ol>
         </div>
       </div>
-      <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
-        <div class="previous-books">
-          <ol class="row list-unstyled">
+
+      <%# --- PREVIOUS BOOKS --- %>
+      <div class="tab-pane pt-5 fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+        <div class="previous-books book_grid">
             <% @my_previously_owned_books.each do |item| %>
-              <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3 px-2">
-                <div class='book_item text-center my-3' data-book-id='<%= item.book.id %>'>
-                  <div class="image_container mb-2">
-                    <%= cl_image_tag item.book.photos.first.key, height: 145, crop: :fill %>
-                  </div>
-                  <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
-                  <div class="status">Acquired on <%= item.date_acquired.utc.getlocal.strftime("%F  %H:%M") %> and
-                  swapped on <%= item.next_history.date_acquired.utc.getlocal.strftime("%F  %H:%M") %></div>
-                </div>
-              </li>
+              <%= render partial: "shared/book",
+                locals: {
+                  book: item.book,
+                  caption: "#{item.date_acquired.utc.getlocal.strftime("%-d %b %Y")} — #{item.next_history.date_acquired.utc.getlocal.strftime("%-d %b %Y")}"
+              } %>
             <% end %>
-          </ol>
         </div>
       </div>
     </div>
