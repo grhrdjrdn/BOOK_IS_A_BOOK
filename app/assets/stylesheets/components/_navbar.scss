@@ -1,6 +1,59 @@
-.navbar-lewagon {
+.navbar {
+  box-sizing: border-box;
+  text-transform: uppercase;
+  display: flex;
+  gap: 4em;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 1em;
+  margin: 0;
+  a {
+    text-decoration: none;
+  }
+  .menu_toggle {
+    cursor: pointer;
+  }
+  .title {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+  }
+  ul {
+    display: none;
+    margin: 0;
+    padding: 0;
+    gap: 1em;
+  }
+  li {
+    text-decoration: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+.navbar.active {
+  background-color: white;
+  .title {
+    display: none;
+  }
+  ul {
+    display: flex;
+  }
+}
+.navbar.logged_out {
+  .menu_toggle, div:last-child {
+    display: none;
+  }
+}
+
+
+
+/*.navbar-lewagon {
   justify-content: space-between;
   background: white;
+  color: black !important;
+  text-transform: uppercase;
 }
 
 .navbar-lewagon .navbar-collapse {
@@ -10,3 +63,4 @@
 .navbar-lewagon .navbar-brand img {
   width: 40px;
 }
+*/

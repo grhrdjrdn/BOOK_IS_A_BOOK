@@ -1,49 +1,35 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon sticky-top">
-  <div class="container-fluid">
-    <%= link_to "#", class: "navbar-brand" do %>
-      <%= image_tag "https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/logo.png" %>
+<div class="navbar <%= 'logged_out' if !user_signed_in? %>" data-controller="navbar">
+  <div class="menu_toggle" data-action="click->navbar#fire" data-navbar-target="menu">Menu</div>
+  <div class="title">
+    <%= link_to "Book", "/" %>
+    <%= link_to "is", "/" %>
+    <%= link_to "a", "/" %>
+    <%= link_to "Book", "/" %>
+    <%= link_to "is", "/" %>
+    <%= link_to "a", "/" %>
+    <%= link_to "Book", "/" %>
+  </div>
+  <ul>
+    <% if user_signed_in? %>
+      <li><%= link_to "Search", books_path %></li>
+      <li><%= link_to "Add", new_book_path %></li>
+      <li><%= link_to "Map", user_path(current_user) %></li>
+      <li>
+        <% @incoming_requests = Request.joins(history: :user).where("history.user_id": current_user.id).order("id DESC") %>
+        <% @pending_requests = @incoming_requests.select { |request| request.status == "pending" } %>
+          <% if @pending_requests.empty? %>
+            <%= link_to "Dashboard", dashboard_path %>
+          <% else %>
+            <%= link_to "Dashboard (#{@pending_requests.length})", dashboard_path %>
+          <% end %>
+      </li>
     <% end %>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
-        <% if user_signed_in? %>
-          <li class="nav-item">
-            <%= link_to "Books", books_path, class: "nav-link" %>
-          </li>
-          <li>
-            <%= link_to "Add a book", new_book_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <% @incoming_requests = Request.joins(history: :user).where("history.user_id": current_user.id).order("id DESC") %>
-            <% @pending_requests = @incoming_requests.select { |request| request.status == "pending" } %>
-              <% if @pending_requests.empty? %>
-                <%= link_to "Dashboard", dashboard_path, class: "nav-link" %>
-              <% else %>
-                <%= link_to "Dashboard (#{@pending_requests.length})", dashboard_path, class: "nav-link" %>
-              <% end %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Map", user_path(current_user), class: "nav-link" %>
-          </li>
-
-          <li class="nav-item dropdown">
-          <a href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="nav-link"><%= current_user.nickname %></span>
-          </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
-            </div>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+  </ul>
+  <div>
+    <% if user_signed_in? %>
+      <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete} %>
+    <% else %>
+      <%= link_to "Login", new_user_session_path %>
+    <% end %>
   </div>
 </div>

@@ -1,0 +1,32 @@
+
+<div class="book">
+  <%= link_to book, class: "book_card", data: { turbo: false } do %>
+    <div class="back" style="background-image: url('<%= cl_image_path book.photos.first.key,
+      :transformation => [
+        {effect: "saturation:35"},
+        {effect: "blur:500"},
+        {width: 60, height: 80, gravity: "auto", crop: "fill"}
+      ] %>')">
+      <div class="screen">
+        <span class="author"><%= book.authors %></span>
+        <div class="title"><%= book.title.truncate(60, separator: ' ', omission: ' ...') %></div>
+      </div>
+    </div>
+
+    <div class="front">
+      <%= cl_image_tag book.photos.first.key,
+      :transformation => [
+        {effect: "gen_restore"},
+        {height: 800, crop: "limit"}
+      ] %>
+    </div>
+  <% end %>
+  <div class="caption">
+    <% if book.current_owner == current_user %>
+      <span>Currently yours</span>
+    <% else %>
+      <span><%= book.current_owner.distance_to(current_user).to_f.round(1) %> km</span>
+      <span><%= link_to book.current_owner.nickname, book.current_owner %></span>
+    <% end %>
+  </div>
+</div>

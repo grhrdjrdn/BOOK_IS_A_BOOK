@@ -1,0 +1,16 @@
+// Find split Layout for this page in components _split_layout.scss
+
+.right-pane {
+  // padding: 2rem; /* Add some padding for better layout */
+  display: flex; /* Center the form */
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.btn-primary {
+  // width: 100%; /* Make the button stretch across the form */
+}
