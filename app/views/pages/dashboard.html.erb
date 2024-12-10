@@ -1,70 +1,113 @@
-<h1>Hello <%= current_user.nickname %>!</h1>
+<div class="container mt-3">
+  <%# <h2 class="text-center">Hello <%= current_user.nickname !</h2> %>
+  <div class="row justify-content-center">
 
-<h1>Requests you made:</h1>
-
-<% @my_requests.each do |item| %>
-  <div class="request">
-    <p>Request (<%= item.created_at.utc.getlocal.strftime("%F  %H:%M") %>)</p>
-    <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
-    <p>requested from owner <%= item.history.user.nickname %></p>
-    <p><%= link_to "Chat with #{item.history.user.nickname}", item %></p>
-    <% if item.status == "swapped" %>
-      <p>Swapped on <%= item.history.next_history.date_acquired.utc.getlocal.strftime("%F  %H:%M") %></p>
-    <% else %>
-      <p><%= item.status %></p>
-    <% end %>
-  </div>
-<% end %>
-
-
-<h1>Incoming requests (<%= @incoming_requests.length %>):</h1>
-
-<div data-controller="request-status">
-  <% @incoming_requests.each do |item| %>
-    <div class='<%= item.status %> request' data-book-id='<%= item.book.id %>'>
-      <p>Request (<%= item.created_at.utc.getlocal.strftime("%F  %H:%M") %>) from <%= item.user.nickname %></p>
-      <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
-      <p>owned by <%= item.book.current_owner.nickname %></p>
-
-      <%# link_to item.status, "/requests/#{item.id}", class: 'status' %>
-
-      <p><%= link_to "Chat with #{item.user.nickname}", item %></p>
-      <div class="status">
-        <% if item.status == "pending" %>
-          <button class='btn-deny'data-action="request-status#send" data-request-status-action-param="deny" data-request-status-path-param="<%= request_deny_path(item) %>">Deny</button>
-          <button class='btn-approve' data-action="request-status#send" data-request-status-action-param="approve" data-request-status-path-param="<%= request_approve_path(item) %>">Swap!</button></td>
-        <% elsif item.status == "swapped" %>
-          <p>Swapped on <%= item.history.next_history.date_acquired.utc.getlocal.strftime("%F  %H:%M") %></p>
-        <% else %>
-          <p>denied</p>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Requests you made</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Incoming requests (<%= @pending_requests.length %>)</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Books you currently own</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="false">Books you previously owned</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <% @my_requests.each do |item| %>
+          <div class="request d-flex justify-content-between">
+            <div class="requested-book flex-grow-1 w-25">
+              <p class="m-0 w-75"><small class="text-black-50 fw-bold">Request (<%= item.created_at.utc.getlocal.strftime("%F  %H:%M") %>)</small></p>
+              <p class="m-0 w-75"><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
+            </div>
+            <div class="previous-owner">
+              <p>requested from <%= item.history.user.nickname %></p>
+            </div>
+            <div class="request-status">
+              <% if item.status == "swapped" %>
+                <p class="mx-3">Swapped on <%= item.history.next_history.date_acquired.utc.getlocal.strftime("%F  %H:%M") %></p>
+              <% else %>
+                <p class="mx-3"><%= item.status %></p>
+              <% end %>
+            </div>
+            <div class="chat-link">
+              <%= link_to "Chat with #{item.history.user.nickname}", item, class: "ms-2" %>
+            </div>
+          </div>
         <% end %>
       </div>
+      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div data-controller="request-status">
+          <%# @incoming_requests.each do |item| %>
+          <% if @pending_requests.empty? !=  true %>
+            <% @pending_requests.each do |item| %>
+              <div class='<%= item.status %> request d-flex justify-content-between' data-book-id='<%= item.book.id %>'>
+                <div class="requested-book flex-grow-1 w-50">
+                  <p class="m-0"><small class="text-black-50 fw-bold">Request (<%= item.created_at.utc.getlocal.strftime("%F  %H:%M") %>) from <%= item.user.nickname %></small></p>
+                  <p class="m-0"><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
+                </div>
+                <%# <p>owned by <%= item.book.current_owner.nickname ></p> %>
+                <div class="pending">
+                  <p class="mx-3"><%= item.status %></p>
+                </div>
+                <%# link_to item.status, "/requests/#{item.id}", class: 'status' %>
+                <div class="chat-link">
+                  <p><%= link_to "Chat with #{item.user.nickname}", item, class: "me-3" %></p>
+                </div>
+                <div class="status">
+                  <% if item.status == "pending" %>
+                    <button class='btn-deny'data-action="request-status#send" data-request-status-action-param="deny" data-request-status-path-param="<%= request_deny_path(item) %>">Deny</button>
+                    <button class='btn-approve' data-action="request-status#send" data-request-status-action-param="approve" data-request-status-path-param="<%= request_approve_path(item) %>">Swap!</button>
+                  <% elsif item.status == "swapped" %>
+                    <p>Swapped on <%= item.history.next_history.date_acquired.utc.getlocal.strftime("%F  %H:%M") %></p>
+                  <% else %>
+                    <p>denied</p>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="current-books">
+          <ol class="row list-unstyled">
+            <% @my_books.each do |item| %>
+              <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3 px-2">
+                <div class='book_item text-center my-3' data-book-id='<%= item.book.id %>'>
+                  <div class="image_container mb-2">
+                    <%= cl_image_tag item.book.photos.first.key, height: 145, crop: :fill %>
+                  </div>
+                  <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
+                  <div class="status">Acquired on <%= item.date_acquired.utc.getlocal.strftime("%F  %H:%M") %></div>
+                </div>
+              </li>
+            <% end %>
+          </ol>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+        <div class="previous-books">
+          <ol class="row list-unstyled">
+            <% @my_previously_owned_books.each do |item| %>
+              <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3 px-2">
+                <div class='book_item text-center my-3' data-book-id='<%= item.book.id %>'>
+                  <div class="image_container mb-2">
+                    <%= cl_image_tag item.book.photos.first.key, height: 145, crop: :fill %>
+                  </div>
+                  <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
+                  <div class="status">Acquired on <%= item.date_acquired.utc.getlocal.strftime("%F  %H:%M") %> and
+                  swapped on <%= item.next_history.date_acquired.utc.getlocal.strftime("%F  %H:%M") %></div>
+                </div>
+              </li>
+            <% end %>
+          </ol>
+        </div>
+      </div>
     </div>
-  <% end %>
-</div>
-
-
-<h1>Books you currently own:</h1>
-
-<div class="current-books">
-  <% @my_books.each do |item| %>
-    <div class='book_item' data-book-id='<%= item.book.id %>'>
-      <%= cl_image_tag item.book.photos.first.key, crop: :fill %>
-      <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
-      <div class="status">Acquired on <%= item.date_acquired.utc.getlocal.strftime("%F  %H:%M") %></div>
-    </div>
-  <% end %>
-</div>
-
-<h1>Books you previously owned:</h1>
-
-<div class="previous-books">
-  <% @my_previously_owned_books.each do |item| %>
-    <div class='book_item' data-book-id='<%= item.book.id %>'>
-      <%= cl_image_tag item.book.photo.key, crop: :fill %>
-      <p><%= link_to item.book.title, item.book %> by <%= item.book.authors %> </p>
-      <div class="status">Acquired on <%= item.date_acquired.utc.getlocal.strftime("%F  %H:%M") %> and
-      swapped on <%= item.next_history.date_acquired.utc.getlocal.strftime("%F  %H:%M") %></div>
-    </div>
-  <% end %>
+  </div>
 </div>

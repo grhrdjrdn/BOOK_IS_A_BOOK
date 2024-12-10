@@ -23,6 +23,7 @@ class PagesController < ApplicationController
     # all the requests that I recieved
     @incoming_requests = Request.joins(history: :user).where("history.user_id": current_user.id).order("id DESC")
 
+    @pending_requests = @incoming_requests.select { |request| request.status == "pending" }
   end
 
 end
