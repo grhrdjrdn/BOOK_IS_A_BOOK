@@ -60,8 +60,8 @@
                 </div>
                 <div class="status">
                   <% if item.status == "pending" %>
-                    <button class='btn-deny'data-action="request-status#send" data-request-status-action-param="deny" data-request-status-path-param="<%= request_deny_path(item) %>">Deny</button>
-                    <button class='btn-approve' data-action="request-status#send" data-request-status-action-param="approve" data-request-status-path-param="<%= request_approve_path(item) %>">Swap!</button>
+                    <button class='btn-deny'data-action="request-status#deny" data-request-status-action-param="deny" data-request-status-path-param="<%= request_deny_path(item) %>">Deny</button>
+                    <button class='btn-approve' data-action="request-status#approve" data-request-status-action-param="approve" data-request-status-path-param="<%= request_approve_path(item) %>">Swap!</button>
                   <% elsif item.status == "swapped" %>
                     <p>Swapped on <%= item.history.next_history.date_acquired.utc.getlocal.strftime("%F  %H:%M") %></p>
                   <% else %>
