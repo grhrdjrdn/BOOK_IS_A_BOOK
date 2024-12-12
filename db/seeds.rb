@@ -191,16 +191,6 @@ Book.destroy_all
 # end
 
 
-
-
-
-
-
-
-
-
-
-
 url = "http://books.toscrape.com/catalogue/page-1.html"
 # 1. We get the HTML page content
 html_content = URI.open(url).read

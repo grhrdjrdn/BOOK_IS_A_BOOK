@@ -1,5 +1,7 @@
 
-<div class="book">
+<% caption ||= nil %>
+
+<div class="book" data-book-id="<%= book.id %>">
   <%= link_to book, class: "book_card", data: { turbo: false } do %>
     <div class="back" style="background-image: url('<%= cl_image_path book.photos.first.key,
       :transformation => [
@@ -9,7 +11,7 @@
       ] %>')">
       <div class="screen">
         <span class="author"><%= book.authors %></span>
-        <div class="title"><%= book.title.truncate(60, separator: ' ', omission: ' ...') %></div>
+        <div class="title"><%= book.title.truncate(50, separator: ' ', omission: ' ...') %></div>
       </div>
     </div>
 
@@ -22,11 +24,16 @@
     </div>
   <% end %>
   <div class="caption">
-    <% if book.current_owner == current_user %>
-      <span>Currently yours</span>
+    <%# Check if a caption was passed to partial %>
+    <% if caption  %>
+      <span><%= caption %></span>
     <% else %>
-      <span><%= book.current_owner.distance_to(current_user).to_f.round(1) %> km</span>
-      <span><%= link_to book.current_owner.nickname, book.current_owner %></span>
+      <% if book.current_owner == current_user %>
+        <span>Currently yours</span>
+      <% else %>
+        <span><%= book.current_owner.distance_to(current_user).to_f.round(1) %> km</span>
+        <span><%= link_to book.current_owner.nickname, book.current_owner %></span>
+      <% end %>
     <% end %>
   </div>
 </div>

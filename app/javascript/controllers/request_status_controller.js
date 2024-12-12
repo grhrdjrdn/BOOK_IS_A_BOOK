@@ -83,18 +83,18 @@ export default class extends Controller {
               "Accept": "application/json"
             }
           }).then(response => response.json())
-            .then((data) => {
-              if (data.status == "denied") {
-                target.innerText = data.status
-                target.parentElement.classList.remove("pending")
-                target.parentElement.classList.add(data.status)
-              } else {
-                target.innerText = "Just swapped"
-                const book = document.querySelector(`.book_item[data-book-id='${book_id}']`)
-                book.querySelector(".status").innerText = "Just swapped!"
-                document.querySelector(".previous-books").prepend(book)
-              }
-            })
+          .then((data) => {
+            if (data.status == "denied") {
+              target.innerText = data.status
+              target.parentElement.classList.remove("pending")
+              target.parentElement.classList.add(data.status)
+            } else {
+              target.innerText = "Just swapped"
+              const book = document.querySelector(`.book[data-book-id='${book_id}']`)
+              book.querySelector(".caption").innerText = "Just swapped!"
+              document.querySelector(".previous-books").prepend(book)
+            }
+          })
         } else if (result.isDismissed) {
           // Handle the case where the user dismisses the alert console.log("User canceled the action!");
         }
