@@ -1,17 +1,14 @@
-<!-- Random Color -->
-<% random_colour = ["bg_col_1", "bg_col_2", "bg_col_3", "bg_col_4"].sample %>
 
 <div class="split_layout">
-  <div class="left-pane <%= random_colour %>">
-    <p class='m-5'>To Do: Image here</p>
+  <div class="left-pane">
+    <%= render "shared/book_is_a_book" %>
   </div>
 
   <div class="right-pane">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-sm-9">
-          <h4>Create a book <small><i class="fa-solid fa-book-open text-danger"></i><small></h4>
-          <p>Add a book</p>
+          <h4 class="mb-4">Add a book <small><i class="fa-solid fa-book-open text-danger"></i></small></h4>
 
           <%= render "form", book: @book %>
 
