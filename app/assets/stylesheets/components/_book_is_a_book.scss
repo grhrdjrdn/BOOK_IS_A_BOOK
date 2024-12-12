@@ -56,24 +56,24 @@
     width: calc(100% - 20px);
     height: calc(100% - 20px);
     margin: 10px;
-    background: url(asset-path("/book/BookIsABook_4.svg")) center / contain no-repeat;
+    background: image-url("book/BookIsABook_4.svg") center / contain no-repeat;
   }
 
   @container middle (max-aspect-ratio: 5) {
     .graphic {
-      background: url(asset-path("/book/BookIsABook_3.svg")) center / contain no-repeat;
+      background: image-url("book/BookIsABook_3.svg") center / contain no-repeat;
     }
   }
 
   @container middle (max-aspect-ratio: 4.8) {
     .graphic {
-      background: url(asset-path("/book/BookIsABook_2.svg")) center / contain no-repeat;
+      background: image-url("book/BookIsABook_2.svg") center / contain no-repeat;
     }
   }
 
   @container middle (max-aspect-ratio: 1.84 ) {
     .graphic {
-      background: url(asset-path("/book/BookIsABook_1.svg")) center / contain no-repeat;
+      background: image-url("book/BookIsABook_1.svg") center / contain no-repeat;
     }
   }
 
