@@ -1,9 +1,6 @@
-<!-- Random Color -->
-<% random_colour = ["bg_col_1", "bg_col_2", "bg_col_3", "bg_col_4"].sample %>
-
 <div class="split_layout">
-  <div class="left-pane <%= random_colour %>">
-    <p class='m-5'>To Do: Image here</p>
+  <div class="left-pane">
+    <%= render "shared/book_is_a_book" %>
   </div>
 
   <div class="right-pane">
