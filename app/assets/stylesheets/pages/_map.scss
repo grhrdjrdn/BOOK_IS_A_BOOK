@@ -46,3 +46,18 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .map_layout {
+    grid-template-columns: 1fr;
+  }
+
+  .map {
+    position: static;
+    width: 100%;
+  }
+
+  .mapboxgl-canvas {
+    width: 100% !important;
+  }
+}

@@ -8,10 +8,17 @@
 
 .left-pane {
   border-radius: 2em;
+  min-height: 300px;
 }
 
 @media screen and (max-width: 1470px) {
   .split_layout {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .split_layout {
+    grid-template-columns: 1fr;
   }
 }

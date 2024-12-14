@@ -45,6 +45,7 @@ class BooksController < ApplicationController
     @pending_requests_made = @book.requests.where(user: current_user, status: "pending")
     # INCOMING REQUESTS I HAVE RECEIVED ON THIS BOOK
     @incoming_requests = Request.joins(:history).where(book: @book, "history.user": current_user).order("id DESC")
+    @pending_requests = @incoming_requests.select { |request| request.status == "pending" }
   end
 
   def new
