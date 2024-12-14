@@ -44,27 +44,44 @@
         <%# DO I HAVE A PENDING REQUEST ON THIS BOOK?  %>
         <% if !@pending_requests_made.exists? %>
           <%= button_to "Make a request", [@book, @request] %>
+        <% else %>
+          <%# I HAVE MADE REQUESTS ON THIS BOOK %>
+          <%# if @requests.exists? %>
+            <%# @requests.each do |item| %>
+          <% @pending_requests_made.each do |item| %>
+            <div class="request">
+              <p>You made a request at <%= item.created_at.strftime("%F  %H:%M") %></p>
+              <p>status <%= item.status %></p>
+              <p><%= link_to "Chat with #{item.history.user.nickname}", item %></p>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
       <%# I AM THE CURRENT OWNER %>
       <% if @book.current_owner.id == current_user.id %>
       <%# AND I HAVE RECEIVED REQUESTS ON THIS BOOK %>
-        <% @incoming_requests.each do |item| %>
-          <div class="request">
-            <p>Request at <%= item.created_at.strftime("%F  %H:%M") %></p>
-            <p>status <%= item.status %></p>
-            <p><%= link_to "Chat with #{item.user.nickname}", item %></p>
-          </div>
+        <%# @incoming_requests.each do |item| %>
+        <% if @pending_requests.empty? !=  true %>
+          <% @pending_requests.each do |item| %>
+            <div class="request">
+              <p>Request at <%= item.created_at.strftime("%F  %H:%M") %></p>
+              <%# <p>status <%= item.status </p> %>
+              <p>status <%= link_to item.status, dashboard_path %></p>
+              <p><%= link_to "Chat with #{item.user.nickname}", item %></p>
+            </div>
+          <% end %>
         <% end %>
-      <% end %>
       <%# I HAVE MADE REQUESTS ON THIS BOOK %>
-      <% if @requests.exists? %>
-        <% @requests.each do |item| %>
-          <div class="request">
-            <p>You made a request at <%= item.created_at.strftime("%F  %H:%M") %></p>
-            <p>status <%= item.status %></p>
-            <p><%= link_to "Chat with #{item.history.user.nickname}", item %></p>
-          </div>
+      <%# if @requests.exists? %>
+        <%# @requests.each do |item| %>
+        <% if @pending_requests_made.exists? %>
+          <% @pending_requests_made.each do |item| %>
+            <div class="request">
+              <p>You made a request at <%= item.created_at.strftime("%F  %H:%M") %></p>
+              <p>status <%= item.status %></p>
+              <p><%= link_to "Chat with #{item.history.user.nickname}", item %></p>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
     </div>
@@ -87,7 +104,5 @@
     </div>
   </div>
 <% end %>
-
-
 
 </div>
