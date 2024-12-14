@@ -26,8 +26,9 @@
     <div class="col-sm-6 product_main">
       <h1><%= @book.title %></h1>
       <p>By <%= @book.authors %></p>
-      <p>Current_owner: <%= @book.current_owner.username %></p>
-      <p>Location: <%= @book.current_owner.location %></p>
+      <p>Owner: <%= link_to @book.current_owner.nickname, @book.current_owner %></p>
+      <p>Distance: <%= @book.current_owner.distance_to(current_user).to_f.round(1) %> km</p>
+      <!-- <p>Location: <%= @book.current_owner.location %></p> -->
         <%# I AM THE CURRENT OWNER %>
       <% if @book.current_owner.id == current_user.id %>
         <p><%#= link_to "Delete", @book, data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %></p>

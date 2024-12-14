@@ -1,7 +1,6 @@
 .book-details-history .checkout-card {
   background: #ffc0cb; /* Light pink for the entire card */
   width: 400px;
-  border: 2px solid #ddd;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
   border-radius: 5px;
@@ -31,7 +30,7 @@
   padding: 10px 0;
   font-size: 0.9em;
   align-items: center;
-  border-bottom: 1px solid #ddd; /* Line between entries */
+  border-bottom: 2px solid black; /* Line between entries */
 }
 
 .book-details-history .checkout-card .entry:last-child {
